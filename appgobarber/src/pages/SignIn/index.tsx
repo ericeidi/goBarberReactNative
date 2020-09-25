@@ -8,6 +8,8 @@ import getValidationErrors from '../../utils/getValidationErrors';
 import { Form } from '@unform/mobile';
 import { FormHandles } from '@unform/core';
 
+import { useAuth } from '../../hooks/auth'
+
 import Input from '../../components/Input'
 
 import Button from '../../components/Button'
@@ -20,6 +22,9 @@ const SignIn: React.FC = () => {
     const formRef = useRef<FormHandles>(null);
     const passwordInputRef = useRef<TextInput>(null);
     const navigation = useNavigation();
+
+    const { signIn } = useAuth();
+
 
     interface SignInFormData {
         email: string;
@@ -38,10 +43,10 @@ const SignIn: React.FC = () => {
           });
     
     
-        //   await signIn({
-        //     email: data.email,
-        //     password: data.password,
-        //   });
+           await signIn({
+            email: data.email,
+            password: data.password,
+           });
     
     
           await schema.validate(data, {
@@ -62,7 +67,7 @@ const SignIn: React.FC = () => {
           Alert.alert('Authentication error', 'An error has occoured, check your credentials.',)
     
         }
-      }, []);
+      }, [signIn]);
     
 
     return (

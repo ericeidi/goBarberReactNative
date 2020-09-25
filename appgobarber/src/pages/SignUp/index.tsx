@@ -5,6 +5,7 @@ import { useNavigation } from '@react-navigation/native';
 import { Form } from '@unform/mobile'
 import { FormHandles } from '@unform/core'
 import * as Yup from 'yup'
+import api from '../../services/api';
 
 import getValidationErrors from '../../utils/getValidationErrors'
 
@@ -39,13 +40,18 @@ const SignUp: React.FC = () => {
             password: Yup.string().required('Password is required').min(6, 'Minimum of 6 digits'),
           });
     
-        //   await api.post ('/users', data);
+          
     
           await schema.validate(data, {
             abortEarly: false,
           });
+
+          await api.post ('/users', data);
+          console.log(data);
+          
+          Alert.alert('Succesfully registered!', 'You can now log in');
     
-         // history.push('/');
+         navigation.goBack();
     
     
         }catch(err){
